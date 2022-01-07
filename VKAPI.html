@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+    <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
+    <script type="text/javascript" src="https://vk.com/js/api/share.js?93" charset="windows-1251"></script>
+</head>
+<body>
+<button class = "repost" href="#">Поделиться</button>
+<button class = "enter" onclick="hello()">Зарегистрироваться</button>
+<script type="text/javascript">
+	VK.init({
+		apiId: //id вашего приложения типа Standalone в VK
+	});
+</script>
+<div id="vk_auth"></div>
+<script type="text/javascript">
+  var repost = document.querySelector(".repost");
+  var user_id=null;
+  var enter=document.querySelector(".enter");
+  enter.setAttribute("disabled","disabled");
+  repost.addEventListener("click",function(){
+  	event.preventDefault();
+  	VK.Auth.login(register,VK.access.FRIENDS,VK.access.NOTES,VK.access.WALL)
+  	VK.Api.call('wall.post',{message:"Внимание,Анекдот из СССР:Почему Брежнев не захотел стать героем Советского Союза в пятый раз? Не мог выговорить слово «пятижды»"},answer)
+  })
+  function register(response){
+  	if (response.session){
+  		user_id=response.session.mid;
+  		//document.cookie="id="+user_id+"expires=3600";
+  		token = response.session.sid;
+  		return user_id,token;
+  	}
+  }
+  function answer(res){
+  	if(res.response){
+  		if (res.response.post_id){
+  			id_of_post=res.response.post_id;
+  			VK.Api.call('wall.getById',{posts:user_id+'_'+id_of_post,access_token:token,v:5.131},post_exists);
+  		}
+  	}
+  }
+  function post_exists(response){
+  	if(response.response[0].text.includes("Внимание,Анекдот из СССР:Почему Брежнев не захотел стать героем Советского Союза в пятый раз? Не мог выговорить слово «пятижды»")){
+  		enter.removeAttribute("disabled","disabled");
+  	}
+  }
+  function hello(){
+  	alert("Спасибо за регистрацию!")
+  }
+</script>
+</script>
+</body>
+</html>
