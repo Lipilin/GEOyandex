@@ -10,7 +10,7 @@
 <button class = "enter" onclick="hello()">Зарегистрироваться</button>
 <script type="text/javascript">
 	VK.init({
-		apiId: //id вашего приложения типа Standalone в VK
+		apiId:8044959 //id вашего приложения типа Standalone в VK
 	});
 </script>
 <div id="vk_auth"></div>
@@ -21,15 +21,13 @@
   enter.setAttribute("disabled","disabled");
   repost.addEventListener("click",function(){
   	event.preventDefault();
-  	VK.Auth.login(register,VK.access.FRIENDS,VK.access.NOTES,VK.access.WALL)
-  	VK.Api.call('wall.post',{message:"Внимание,Анекдот из СССР:Почему Брежнев не захотел стать героем Советского Союза в пятый раз? Не мог выговорить слово «пятижды»"},answer)
+  	VK.Auth.login(register,VK.access.FRIENDS,VK.access.NOTES,VK.access.WALL);
   })
   function register(response){
   	if (response.session){
   		user_id=response.session.mid;
-  		//document.cookie="id="+user_id+"expires=3600";
   		token = response.session.sid;
-  		return user_id,token;
+  		VK.Api.call('wall.post',{message:"Внимание,Анекдот из СССР:Почему Брежнев не захотел стать героем Советского Союза в пятый раз? Не мог выговорить слово «пятижды»"},answer);
   	}
   }
   function answer(res){
